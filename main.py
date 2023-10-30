@@ -205,6 +205,7 @@ def actualizar_tendencia():
     fecha_actual = datetime.datetime.today().strftime('%Y-%m-%d')
     ahorro_actual = (valor_50.get() * 50) + (valor_100.get() * 100) + (valor_200.get() * 200) + (valor_500.get() * 500) + (valor_1000.get() * 1000)
     ahorro_diario.append((fecha_actual, ahorro_actual))
+    guardar_tendencia()  # Llama a la función para guardar la tendencia
 
 def mostrar_tendencia():
     fechas = [fecha for fecha, _ in ahorro_diario]
@@ -216,6 +217,10 @@ def mostrar_tendencia():
     plt.title('Tendencia de Ahorro con el Tiempo')
     plt.xticks(rotation=45)
     plt.show()
+
+def guardar_tendencia():
+    with open('tendencia.json', 'w') as archivo:
+        json.dump(ahorro_diario, archivo)
 
 # Crear una ventana principal
 ventana = tk.Tk()
@@ -360,6 +365,13 @@ boton_tendencia.grid(row=13, column=0, columnspan=3, sticky="n")
 # Crear un botón para abrir la ventana de movimientos
 boton_movimientos = tk.Button(ventana, text="Ver Movimientos", command=mostrar_movimientos)
 boton_movimientos.grid(row=14, column=0, columnspan=3, sticky="n")
+
+# Cargar la tendencia desde el archivo JSON
+try:
+    with open('tendencia.json', 'r') as archivo:
+        ahorro_diario = json.load(archivo)
+except FileNotFoundError:
+    ahorro_diario = []
 
 # Generar y almacenar automáticamente una gráfica para la fecha actual al iniciar la aplicación
 generar_y_almacenar_grafica()
