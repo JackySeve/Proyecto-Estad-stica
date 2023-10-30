@@ -151,11 +151,11 @@ def mostrar_estadisticas(avanzadas=False):
         desviacion_estandar = statistics.stdev(valores_monetarios)
         moda = statistics.mode(valores_monetarios)
         suma = sum(valores_monetarios)
-        varianza = statistics.variance(valores_monetarios)
+        varianza = statistics.variance(valores)
         cuartiles = np.percentile(valores_monetarios, [25, 50, 75])
-        coeficiente_de_variacion = (desviacion_estandar / media) * 100
+        coeficiente_de_variacion = (statistics.stdev(valores) / statistics.mean(valores)) * 100
 
-        mensaje = f"Media: ${media:.2f}\nMediana: ${mediana:.2f}\nModa: ${moda:.2f}\nSuma: ${suma:.2f}\nVarianza: ${varianza:.2f}\n"
+        mensaje = f"Media: ${media:.2f}\nMediana: ${mediana:.2f}\nDesviación Estándar${desviacion_estandar:.2f}\nModa: ${moda:.2f}\nSuma: ${suma:.2f}\nVarianza: {varianza:.2f}\n"
         mensaje += f"Cuartiles (25% - 50% - 75%): ${cuartiles[0]:.2f} - ${cuartiles[1]:.2f} - ${cuartiles[2]:.2f}\nCoeficiente de Variación: {coeficiente_de_variacion:.2f}%"
 
         if avanzadas:
